@@ -3,6 +3,7 @@
 import { getAllFilesInDir } from './getAllFiles.js'
 import { readFileSync } from 'fs'
 import * as d3 from 'd3'
+import { monthsShort } from './monthLabels.js'
 
 const allFileFullPaths = getAllFilesInDir('data')
 // console.log(allFileFullPaths)
