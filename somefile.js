@@ -1,9 +1,9 @@
 /* global console */
 
 import { getAllFilesInDir } from './getAllFiles.js'
-import { readFileSync } from 'fs'
+import { readFileSync, writeFileSync } from 'fs'
 import * as d3 from 'd3'
-import { monthsShort } from './monthLabels.js'
+// import { monthsShort } from './monthLabels.js'
 
 const allFileFullPaths = getAllFilesInDir('data')
 // console.log(allFileFullPaths)
@@ -31,3 +31,5 @@ placesWeatherData.forEach(place => {
 const uniqueMetricLabels = Array.from(new Set(allMetricLabels))
 
 console.log(uniqueMetricLabels)
+
+writeFileSync('uniqueMetricLabels.json', JSON.stringify(uniqueMetricLabels))
