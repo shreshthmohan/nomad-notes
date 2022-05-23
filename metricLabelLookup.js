@@ -1,23 +1,25 @@
-import { readFileSync } from 'fs'
+// import { readFileSync } from 'fs'
 
-const lookFor = [
-  { replace: /rain(fall|y)/gi, with: 'precipitation' },
+export const lookFor = [
+  { replace: /\brain(fall|y)\b/gi, with: 'precipitation' },
   { replace: /\s+°C/gi, with: '' },
   { replace: /\s+mm/gi, with: '' },
+  { replace: ',', with: '' },
+  { replace: '−', with: '-' },
 ]
 
-let uniqueMetricLabelsStr = readFileSync('./uniqueMetricLabels.json').toString()
+// let uniqueMetricLabelsStr = readFileSync('./uniqueMetricLabels.json').toString()
 
-lookFor.forEach(sr => {
-  uniqueMetricLabelsStr = uniqueMetricLabelsStr.replaceAll(sr.replace, sr.with)
-})
+// lookFor.forEach(sr => {
+//   uniqueMetricLabelsStr = uniqueMetricLabelsStr.replaceAll(sr.replace, sr.with)
+// })
 
-uniqueMetricLabelsStr = uniqueMetricLabelsStr.toLowerCase()
+// uniqueMetricLabelsStr = uniqueMetricLabelsStr.toLowerCase()
 
-console.log(uniqueMetricLabelsStr)
+// console.log(uniqueMetricLabelsStr)
 
-const uniqueMetricLabels = Array.from(
-  new Set(JSON.parse(uniqueMetricLabelsStr)),
-)
+// const uniqueMetricLabels = Array.from(
+//   new Set(JSON.parse(uniqueMetricLabelsStr)),
+// )
 
-console.log(uniqueMetricLabels)
+// console.log(uniqueMetricLabels)
