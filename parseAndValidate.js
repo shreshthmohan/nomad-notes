@@ -1,3 +1,5 @@
+/* global console */
+
 const { parse } = require('papaparse')
 const fs = require('fs')
 

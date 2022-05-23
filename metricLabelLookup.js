@@ -1,12 +1,8 @@
 import { readFileSync } from 'fs'
 
 const lookFor = [
-  { replace: /average high( °C)?/gi, with: 'average high' },
-  { replace: /average low( °C)?/gi, with: 'average low' },
   { replace: /rain(fall|y)/gi, with: 'precipitation' },
-  { replace: /record high( °C)?/gi, with: 'record high' },
-  { replace: /record low( °C)?/gi, with: 'record low' },
-  { replace: /daily mean( °C)?/gi, with: 'daily mean' },
+  { replace: /\s+°C/gi, with: '' },
   { replace: /\s+mm/gi, with: '' },
 ]
 

@@ -2,7 +2,8 @@
   "globals": {
     "window": "readonly",
     "document": "readonly",
-    "Intl": "readonly"
+    "Intl": "readonly",
+    "console": "readonly"
   },
   "extends": "eslint:recommended",
   "parserOptions": {
