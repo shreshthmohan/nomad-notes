@@ -5,6 +5,7 @@ import { readFileSync, writeFileSync } from 'fs'
 import { lookFor } from '../metricLabelLookup.js'
 import { intersection } from './intersection.js'
 import { tsvParse } from 'd3'
+import { monthsShort } from '../monthLabels.js'
 
 export function processData() {
   const requiredMetrics = ['average high', 'average low']
@@ -32,6 +33,9 @@ export function processData() {
     if (parsedData.columns.indexOf('metric') === -1) {
       errors.push(`metric column not present in ${filename}`)
     }
+    if (parsedData.columns.indexOf('year') === -1) {
+      errors.push(`year column not present in ${filename}`)
+    }
     const parsedDataObj = { data: {}, columns: parsedData.columns }
 
     parsedData.forEach(metricData => {
@@ -39,6 +43,18 @@ export function processData() {
       placeMetricLabels.push(metric)
       allMetricLabels.push(metric)
       parsedDataObj.data[metric] = metricData
+      const monthsAndYear = monthsShort.slice()
+      monthsAndYear.push('year')
+
+      monthsAndYear.forEach(col => {
+        const d = Number.parseFloat(parsedDataObj.data[metric][col])
+        if (Number.isNaN(d)) {
+          errors.push(
+            `In ${filename}, metric ${metric} for column ${col}, ${d} ${parsedDataObj.data[metric][col]} cannot be parsed as a number`,
+          )
+        }
+        parsedDataObj.data[metric][col] = d
+      })
     })
     parsedData.metrics = placeMetricLabels
     eachPlacesMetrics.push(placeMetricLabels)
@@ -50,7 +66,8 @@ export function processData() {
     placesWeatherData[placename] = parsedDataObj
   })
 
-  console.log(placesWeatherData.goa)
+  // console.log(placesWeatherData.goa)
+  console.log({ errors })
 
   const commonMetrics = intersection(eachPlacesMetrics)
   return {
@@ -64,3 +81,5 @@ export function processData() {
 const processedData = JSON.stringify(processData())
 
 writeFileSync('data.json', processedData)
+
+writeFileSync('data.js', `export const weatherData = ${processedData}`)
