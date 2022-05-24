@@ -1,10 +1,10 @@
 // Read all files from ../data/tsv/
 
 import { getAllFilesInDir } from '../getAllFiles.js'
-import { readFileSync } from 'fs'
+import { readFileSync, writeFileSync } from 'fs'
 import { lookFor } from '../metricLabelLookup.js'
 import { intersection } from './intersection.js'
-import * as d3 from 'd3'
+import { tsvParse } from 'd3'
 
 export function processData() {
   const requiredMetrics = ['average high', 'average low']
@@ -28,7 +28,7 @@ export function processData() {
     })
 
     const placename = filename.split('.')[0]
-    const parsedData = d3.tsvParse(cleanedFileData)
+    const parsedData = tsvParse(cleanedFileData)
     if (parsedData.columns.indexOf('metric') === -1) {
       errors.push(`metric column not present in ${filename}`)
     }
@@ -61,4 +61,6 @@ export function processData() {
   }
 }
 
-processData()
+const processedData = JSON.stringify(processData())
+
+writeFileSync('data.json', processedData)
